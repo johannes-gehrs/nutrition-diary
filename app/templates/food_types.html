@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <ul id="items" class="list-group">
+        {% for ft in fts %}
+            <div class="row">
+                <div class="col-xs-8">
+                    <a href="{% url 'food_type' id=ft.id %}" class="lead">{{ ft.name }}</a>
+                    <br>
+                    <span>{{ ft.serving_description }}</span>
+                </div>
+                <div class="col-xs-4">
+                    <form role="form" action="{% url 'food_type' ft.id %}" id="add_serving"
+                          method="post"
+                          class="form-inline">
+                        {% csrf_token %}
+                        <div class="form-group" style="display:none">
+                            {{ form.quantity }}
+                        </div>
+                        <div class="form-group" style="display:none">
+                            {{ form.date }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block"
+                                style="margin-top: 7px">+1</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </ul>
+{% endblock content %}

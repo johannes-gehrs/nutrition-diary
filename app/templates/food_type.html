@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h3>{{ ft.name }}</h3>
+    <h4>{{ ft.serving_description }}</h4>
+    <p>({{ ft.serving_size }}g)</p>
+    <div id="diary_form" style="margin-bottom: 10px">
+    <form role="form" action="{% url 'food_type' ft.id %}" id="current_weight_form" method="post"
+          class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.quantity }}
+        </div>
+        <div class="form-group">
+            {{ form.date }}
+        </div>
+        <button type="submit" class="btn btn-primary">Eintragen</button>
+    </form>
+    </div>
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <td><b>Points</b></td>
+            <td><b>{{ serving_points }}</b></td>
+        </tr>
+        <tr>
+            <td>Kalorien</td>
+            <td>{{ serving.calories }}</td>
+        </tr>
+        <tr>
+            <td>Fett</td>
+            <td>{{ serving.fat }}</td>
+        </tr>
+        <tr>
+            <td>Kohlenhydrate</td>
+            <td>{{ serving.carbon }}</td>
+        </tr>
+        <tr>
+            <td>Ballaststoffe</td>
+            <td>{{ serving.fiber }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><a class="btn btn-default" href="{% url "edit_ft_serving" ft.id %}">Portion anpassen</a></p>
+    <h4>Basisangaben je 100g</h4>
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <td><b>Points</b></td>
+            <td><b>{{ ft.points }}</b></td>
+        </tr>
+        <tr>
+            <td>Kalorien</td>
+            <td>{{ ft.calories }}</td>
+        </tr>
+        <tr>
+            <td>Fett</td>
+            <td>{{ ft.fat }}</td>
+        </tr>
+        <tr>
+            <td>Kohlenhydrate</td>
+            <td>{{ ft.carbon }}</td>
+        </tr>
+        <tr>
+            <td>Ballaststoffe</td>
+            <td>{{ ft.fiber }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock content %}

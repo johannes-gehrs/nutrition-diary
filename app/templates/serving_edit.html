@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form role="form" action="{% url 'edit_ft_serving' ft.id %}" id="serving_edit"
+          method="post"
+          class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            {{ form.quantity }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Speichern</button>
+    </form>
+{% endblock content %}

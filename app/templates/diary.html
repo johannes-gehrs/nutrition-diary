@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+    {% for date, day in days %}
+        <h3>{{ date | naturalday }}</h3>
+        <table class="table table-striped">
+            <tbody>
+            {% for serving in day.servings %}
+                <tr>
+                    <td>{{ serving.food_type.name }}</td>
+                    <td>{{ serving.points }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm delete-serving"
+                                id="{{ serving.id }}">Löschen
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><b>Summe: </b></td>
+                <td>{{ day.sum }}</td>
+                <td></td>
+            </tr>
+        </table>
+    {% endfor %}
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function () {
+            /* Start generated JavaScript */
+            {% for date, day in days %}
+                {% for serving in day.servings %}
+                $('button.delete-serving#{{ serving.id }}').click(function () {
+                    jqxhr = $.ajax({
+                        url: '{% url 'serving' serving.id %}',
+                        type: 'DELETE'
+                    });
+                    jqxhr.success(function () {
+                        console.log('Successfully deleted: {{ serving.id }}');
+                        location.reload();
+                    });
+                    jqxhr.error(function () {
+                        console.log("Delete request didn't work: {{ serving.id }}")
+                    })
+                });
+                    {% endfor %}
+            {% endfor %}
+            /* End generated JavaScript */
+        });
+    </script>
+{% endblock scripts %}
