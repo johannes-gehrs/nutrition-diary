@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
     <ul id="items" class="list-group">
+        <input type="text" id="search" class="input-large search-query" style="width: 100%">
         {% for ft in fts %}
             <div class="row">
                 <div class="col-xs-8">
-                    <a href="{% url 'food_type' id=ft.id %}" class="lead">{{ ft.name }}</a>
+                    <a href="{% url 'food_type' id=ft.id %}"
+                       class="lead item_name">{{ ft.name }}</a>
                     <br>
                     <span>{{ ft.serving_description }}</span>
                 </div>
@@ -20,10 +22,34 @@
                             {{ form.date }}
                         </div>
                         <button type="submit" class="btn btn-primary btn-block"
-                                style="margin-top: 7px">+1</button>
+                                style="margin-top: 7px">+1
+                        </button>
                     </form>
                 </div>
             </div>
         {% endfor %}
     </ul>
 {% endblock content %}
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function () {
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+
+                $('div.row').each(function (index) {
+
+                    var $row = $(this);
+                    var text = $row.find(".item_name").text().toLowerCase();
+
+                    if (text.indexOf(value) == -1) {
+                        $row.hide();
+                    }
+                    else {
+                        $row.show();
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock scripts %}
