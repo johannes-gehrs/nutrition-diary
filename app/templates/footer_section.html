@@ -1,0 +1,45 @@
+{% if user.is_authenticated %}
+    <div style="margin-top: 24px">
+        <a href="{% url 'logout' %}">Ausloggen</a>
+        {% autoescape off %}
+            <button class="btn btn-default btn-sm" data-toggle="modal"
+                    data-target="#bookmarklet_modal" style="margin-left: 5px">
+                Boorkmarklet
+            </button>
+            <div class="modal fade" id="bookmarklet_modal" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Bookmarklet</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Desktop</h4>
+
+                            <p>Ziehe den Link in die Bookmark-Leiste</p>
+                            <a href="javascript:q = location.href;void(open('http://srv.gehrs.me/add/' + encodeURIComponent(q)));"
+                               id="bookmarklet_link">+Lebensmittel</a>
+                            <h4>Smartphone</h4>
+                            <ol>
+                                <li>Den unten stehenden Text kopieren.</li>
+                                <li>Ein neues Bookmark dieser Seite erstellen.</li>
+                                <li>Das Bookmark editieren, und dabei das Ziel mit dem
+                                    kopierten Text ersetzen.
+                                </li>
+                            </ol>
+                            <textarea id="bookmarklet_textarea" style="white-space: normal"
+                                      cols="20" rows="8">
+                                javascript:q = location.href;void(open('http://srv.gehrs.me/add/' +
+                                encodeURIComponent(q)));
+                            </textarea>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endautoescape %}
+    </div>
+{% endif %}
