@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>Bitte logg Dich ein.</p>
-<form role="form" action="{% url 'login' %}?next={% url 'index' %}" method="post">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<p class="form-actions">
-		<button type="submit" class="btn btn-primary">Einloggen</button>
-	</p>
-</form>
+    <p>Bitte logg Dich ein.</p>
+    <form role="form" action="{% url 'login' %}?next={% url 'index' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p class="form-actions">
+            <button type="submit" class="btn btn-primary">Einloggen</button>
+        </p>
+    </form>
 {% endblock content %}
+
