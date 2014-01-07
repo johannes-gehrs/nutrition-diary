@@ -7,7 +7,10 @@
             <tbody>
             {% for serving in day.servings %}
                 <tr>
-                    <td>{{ serving.food_type.name }}</td>
+                    <td>
+                        <a href="{% url 'food_type' id=serving.food_type.id %}">
+                            {{ serving.food_type.name }}</a>
+                    </td>
                     <td>{{ serving.points }}</td>
                     <td>
                         <button class="btn btn-warning btn-sm delete-serving"
@@ -32,20 +35,20 @@
             /* Start generated JavaScript */
             {% for date, day in days %}
                 {% for serving in day.servings %}
-                $('button.delete-serving#{{ serving.id }}').click(function () {
-                    jqxhr = $.ajax({
-                        url: '{% url 'serving' serving.id %}',
-                        type: 'DELETE'
+                    $('button.delete-serving#{{ serving.id }}').click(function () {
+                        jqxhr = $.ajax({
+                            url: '{% url 'serving' serving.id %}',
+                            type: 'DELETE'
+                        });
+                        jqxhr.success(function () {
+                            console.log('Successfully deleted: {{ serving.id }}');
+                            location.reload();
+                        });
+                        jqxhr.error(function () {
+                            console.log("Delete request didn't work: {{ serving.id }}")
+                        })
                     });
-                    jqxhr.success(function () {
-                        console.log('Successfully deleted: {{ serving.id }}');
-                        location.reload();
-                    });
-                    jqxhr.error(function () {
-                        console.log("Delete request didn't work: {{ serving.id }}")
-                    })
-                });
-                    {% endfor %}
+                {% endfor %}
             {% endfor %}
             /* End generated JavaScript */
         });

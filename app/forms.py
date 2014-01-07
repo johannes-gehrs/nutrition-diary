@@ -20,6 +20,7 @@ class ServingsEaten(forms.Form):
                                   initial=1, min_value=1, max_value=25)
     date = forms.ChoiceField(widget=forms.Select(attrs=widget_attrs), label="Zeitpunkt",
                              initial='today', choices=CHOICES)
+    next = forms.CharField(widget=forms.HiddenInput, initial='diary')
 
 
 class ServingMaster(forms.Form):

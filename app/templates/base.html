@@ -30,6 +30,16 @@
             </ul>
         </div>
     {% endif %}
+    {% block messages %}
+        {% if messages %}
+            <ul class="list-unstyled">
+            {% for message in messages %}
+                <li class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+                    {{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endblock messages %}
     {% block content %}
     {% endblock content %}
     {% include 'footer_section.html' %}

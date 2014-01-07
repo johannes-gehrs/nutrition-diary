@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
     <ul id="items" class="list-group">
-        <input type="text" id="search" class="input-large search-query" style="width: 100%">
+        <input type="text" id="search" class="input-large search-query" style="width: 100%; margin-bottom: 5px">
         {% for ft in fts %}
             <div class="row">
                 <div class="col-xs-8">
                     <a href="{% url 'food_type' id=ft.id %}"
-                       class="lead item_name">{{ ft.name }}</a>
+                       class="item_name">{{ ft.name }}</a>
                     <br>
                     <span>{{ ft.serving_description }}</span>
                 </div>
                 <div class="col-xs-4">
-                    <form role="form" action="{% url 'food_type' ft.id %}" id="add_serving"
+                    <form role="form" action="{% url 'food_type' ft.id%}" id="add_serving"
                           method="post"
                           class="form-inline">
                         {% csrf_token %}
@@ -21,9 +21,8 @@
                         <div class="form-group" style="display:none">
                             {{ form.date }}
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block"
-                                style="margin-top: 7px">+1
-                        </button>
+                            {{ form.next }}
+                        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 8px">+1</button>
                     </form>
                 </div>
             </div>

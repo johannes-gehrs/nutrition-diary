@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from datetime import datetime, date, timedelta
 from collections import namedtuple
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_safe, require_http_methods
 from app import scrape_fddb, models, forms
+
 
 @require_safe
 def index(request):
@@ -41,7 +44,16 @@ def scrape(request, url):
 @login_required
 def food_types(request):
     fts = models.FoodType.objects.all().order_by('-timestamp')
-    return render(request, 'food_types.html', {'fts': fts, 'form': forms.ServingsEaten()})
+    return render(request, 'food_types.html',
+                  {'fts': fts, 'form': forms.ServingsEaten(initial={'next': 'food_types'})})
+
+
+def _add_serving_message(quantity, name):
+    if quantity != 1:
+        serving = 'Portionen'
+    else:
+        serving = 'Portion'
+    return 'Du hast {0} {1} {2} hinzugefügt.'.format(unicode(quantity), serving, name)
 
 
 @require_http_methods(['GET', 'POST'])
@@ -70,7 +82,11 @@ def food_type(request, id):
                 datetime.now(), bound_form.cleaned_data['quantity']
             ft.save()
             serving.save()
-            return redirect('diary')
+            messages.add_message(request, messages.SUCCESS,
+                                 _add_serving_message(int(bound_form.cleaned_data['quantity']),
+                                                      ft.name))
+            next = bound_form.cleaned_data['next']
+            return redirect(next)
         else:
             form = bound_form
     else:
@@ -113,8 +129,8 @@ def diary(request):
     serving_dates = [item['date_of_consumption'] for item in serving_dates_list_of_dicts]
 
     for serving_date in serving_dates:
-        servings = models.Serving.objects\
-            .filter(user=request.user, date_of_consumption=serving_date)\
+        servings = models.Serving.objects \
+            .filter(user=request.user, date_of_consumption=serving_date) \
             .order_by('timestamp')
         sum_of_points = sum([serving.points() for serving in servings])
         servings_grouped_by_day.append((serving_date, Day(servings, sum_of_points)))
