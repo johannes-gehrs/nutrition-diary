@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"
           user-scalable="no">
     {% block styles %}
-{#        <link href="{% static "bower_components/bootstrap/dist/css/bootstrap.css" %}"#}
-{#              rel="stylesheet">#}
-                <link href="{% static "simplex.css" %}" rel="stylesheet">
+        {#        <link href="{% static "bower_components/bootstrap/dist/css/bootstrap.css" %}"#}
+        {#              rel="stylesheet">#}
+        <link href="{% static "simplex.css" %}" rel="stylesheet">
         <link href="{% static "custom.css" %}" rel="stylesheet">
     {% endblock styles %}
 
@@ -22,13 +22,13 @@
 <body>
 <div class="container">
     {% if user.is_authenticated %}
-    <div id="nav" style="margin-bottom: 12px">
-        <ul class="nav nav-tabs" id="nav_ul" style="margin: 4px">
-            <li><a href="{% url 'food_types' %}">Lebensmittel</a></li>
-            <li><a href="{% url 'diary' %}">Heute: {{ todays_points }}
-                Point{{ todays_points|pluralize }}</a></li>
-        </ul>
-    </div>
+        <div id="nav" style="margin-bottom: 12px">
+            <ul class="nav nav-tabs" id="nav_ul" style="margin: 4px">
+                <li><a href="{% url 'food_types' %}">Lebensmittel</a></li>
+                <li><a href="{% url 'diary' %}">Heute: {{ todays_points }}
+                    Point{{ todays_points|pluralize }}</a></li>
+            </ul>
+        </div>
     {% endif %}
     {% block content %}
     {% endblock content %}
@@ -39,13 +39,17 @@
         <script src="{% static "bower_components/fastclick/lib/fastclick.js" %}"></script>
         <script src="{% static "custom.js" %}"></script>
     {% endblock scripts %}
-{% if user.is_authenticated %}
-    <div style="margin-top: 24px">
-        <a href="{% url 'logout' %}">Ausloggen</a>
-        <span>/</span>
-        <a href="{% static 'bookmarklet.js' %}">Bookmarklet</a>
-    </div>
-{% endif %}
+    {% if user.is_authenticated %}
+        <div style="margin-top: 24px">
+            <a href="{% url 'logout' %}">Ausloggen</a>
+            <span>/</span>
+            <span>Bookmarklet: </span>
+            {% autoescape off %}
+                <a href="javascript:q = location.href;void(open('http://serv.gehrs.me/add/' + encodeURIComponent(q)));"
+                   class="bookmarklet">+Lebensmittel</a>
+            {% endautoescape %}
+        </div>
+    {% endif %}
 </div>
 </body>
 </html>
