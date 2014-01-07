@@ -5,6 +5,7 @@ from collections import namedtuple
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_safe, require_http_methods
@@ -48,12 +49,36 @@ def food_types(request):
                   {'fts': fts, 'form': forms.ServingsEaten(initial={'next': 'food_types'})})
 
 
-def _add_serving_message(quantity, name):
+def _serving_message(quantity, name):
     if quantity != 1:
         serving = 'Portionen'
     else:
         serving = 'Portion'
     return 'Du hast {0} {1} {2} hinzugefügt.'.format(unicode(quantity), serving, name)
+
+
+def _handle_servings_eaten(request, ft, bound_form):
+    date_choice = bound_form.cleaned_data['date']
+    if date_choice == 'yesterday':
+        date_of_consumption = (date.today() - timedelta(days=1))
+    elif date_choice == 'today':
+        date_of_consumption = (date.today())
+    elif date_choice == 'tomorrow':
+        date_of_consumption = (date.today() + timedelta(days=1))
+    with transaction.atomic():
+        serving = models.Serving(user=request.user,
+                                 food_type=ft,
+                                 date_of_consumption=date_of_consumption,
+                                 quantity=int(
+                                     bound_form.cleaned_data[
+                                         'quantity']) * ft.serving_size)
+        ft.timestamp, ft.serving_recent_quantity = \
+            datetime.now(), bound_form.cleaned_data['quantity']
+        ft.save()
+        serving.save()
+        messages.add_message(request, messages.SUCCESS,
+                             _serving_message(int(bound_form.cleaned_data['quantity']),
+                                              ft.name))
 
 
 @require_http_methods(['GET', 'POST'])
@@ -64,27 +89,7 @@ def food_type(request, id):
     if request.method == 'POST':
         bound_form = forms.ServingsEaten(request.POST)
         if bound_form.is_valid():
-
-            date_choice = bound_form.cleaned_data['date']
-            if date_choice == 'yesterday':
-                date_of_consumption = (date.today() - timedelta(days=1))
-            elif date_choice == 'today':
-                date_of_consumption = (date.today())
-            elif date_choice == 'tomorrow':
-                date_of_consumption = (date.today() + timedelta(days=1))
-
-            serving = models.Serving(user=request.user,
-                                     food_type=ft,
-                                     date_of_consumption=date_of_consumption,
-                                     quantity=int(
-                                         bound_form.cleaned_data['quantity']) * ft.serving_size)
-            ft.timestamp, ft.serving_recent_quantity = \
-                datetime.now(), bound_form.cleaned_data['quantity']
-            ft.save()
-            serving.save()
-            messages.add_message(request, messages.SUCCESS,
-                                 _add_serving_message(int(bound_form.cleaned_data['quantity']),
-                                                      ft.name))
+            _handle_servings_eaten(request, ft, bound_form)
             next = bound_form.cleaned_data['next']
             return redirect(next)
         else:
@@ -138,9 +143,20 @@ def diary(request):
     return render(request, 'diary.html', {"days": servings_grouped_by_day})
 
 
+def _delete_message(name, points):
+    if points != 1:
+        formatted = 'Points'
+    else:
+        formatted = 'Point'
+    return "{0} ({1} {2}) wurde gelöscht.".format(name, points, formatted)
+
+
 @require_http_methods(['DELETE'])
 @login_required()
 def delete_serving(request, id):
     serving = get_object_or_404(models.Serving, user=request.user, id=id)
-    serving.delete()
+    with transaction.atomic():
+        messages.add_message(request, messages.WARNING, _delete_message(serving.food_type.name,
+                                                                       serving.points()))
+        serving.delete()
     return HttpResponse('Serving deleted!')
