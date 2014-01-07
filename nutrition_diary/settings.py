@@ -22,11 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '0t=3goq#*w#p*d3ju1nf-*f99z(5ra0suy2i4j3e_t#t^9&q1%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.gehrs.me.']
 
 
 # Application definition
@@ -89,3 +89,9 @@ USE_L10N = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = 'login'
+
+# Local vs Prod settings
+try:
+    from .local_settings import *
+except ImportError, e:
+    pass
