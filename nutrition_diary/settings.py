@@ -26,7 +26,8 @@ DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['.gehrs.me.']
+ALLOWED_HOSTS = ['.gehrs.me',
+                 '.gehrs.me.',]
 
 
 # Application definition
