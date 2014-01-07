@@ -34,14 +34,14 @@
     <script>
         $(document).ready(function () {
             $("#search").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
+                var search_term = $(this).val().toLowerCase();
 
                 $('div.row').each(function (index) {
 
                     var $row = $(this);
-                    var text = $row.find(".item_name").text().toLowerCase();
+                    var row_text_content = $row.find(".item_name").text().toLowerCase();
 
-                    if (text.indexOf(value) == -1) {
+                    if (row_text_content.indexOf(search_term) == -1) {
                         $row.hide();
                     }
                     else {
