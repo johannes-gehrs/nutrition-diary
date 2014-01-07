@@ -26,4 +26,4 @@ class ServingsEaten(forms.Form):
 class ServingMaster(forms.Form):
     description = forms.CharField(widget=forms.TextInput(attrs=widget_attrs), label="Beschreibung")
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs=widget_attrs), min_value=1,
-                               max_value=2000)
+                                  max_value=2000, label='Menge in g')
