@@ -112,9 +112,12 @@ def edit_ft_serving(request, id):
     if request.method == 'POST':
         bound_form = forms.ServingMaster(request.POST)
         if bound_form.is_valid():
-            ft.serving_description = bound_form.cleaned_data['description']
-            ft.serving_size = bound_form.cleaned_data['quantity']
-            ft.save()
+            with transaction.atomic():
+                ft.serving_description = bound_form.cleaned_data['description']
+                ft.serving_size = bound_form.cleaned_data['quantity']
+                ft.save()
+                messages.add_message(request, messages.SUCCESS,
+                                     "Deine Änderungen wurden gespeichert.")
             return redirect((reverse('food_type', kwargs={'id': ft.id})))
         else:
             form = bound_form
@@ -156,7 +159,7 @@ def _delete_message(name, points):
 def delete_serving(request, id):
     serving = get_object_or_404(models.Serving, user=request.user, id=id)
     with transaction.atomic():
-        messages.add_message(request, messages.WARNING, _delete_message(serving.food_type.name,
+        messages.add_message(request, messages.SUCCESS, _delete_message(serving.food_type.name,
                                                                        serving.points()))
         serving.delete()
     return HttpResponse('Serving deleted!')

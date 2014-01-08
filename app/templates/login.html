@@ -6,10 +6,15 @@
     <p>Bitte logg Dich ein.</p>
     <form role="form" action="{% url 'login' %}?next={% url 'index' %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <p class="form-actions">
-            <button type="submit" class="btn btn-primary">Einloggen</button>
-        </p>
+        <div class="form-group">
+            <label>Benutzername</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label>Passwort</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Einloggen</button>
     </form>
 {% endblock content %}
 
