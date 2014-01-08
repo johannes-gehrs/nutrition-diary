@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, unicode_literals
 from django.conf.urls import patterns, include, url
-from app import views
+from app import views, forms
 
 from django.contrib import admin
 
@@ -15,7 +15,7 @@ urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
                        url(r'^add/(?P<url>.+)', views.scrape, name='add'),
                        url(r'^login/$', 'django.contrib.auth.views.login',
-                           {'template_name': 'login.html'}, 'login'),
+                           {'template_name': 'login.html', 'authentication_form': forms.LoginForm},'login'),
                        url(r'^logout/$', 'django.contrib.auth.views.logout',
                            {'next_page': '/'}, name='logout'),
                        url(r'^food_types/$', views.food_types, name='food_types'),

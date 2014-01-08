@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, unicode_literals
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 
 
 widget_attrs = {'class': 'form-control'}
 
 
-class LoginForm(forms.Form):
-    user = forms.CharField(widget=forms.TextInput(attrs=widget_attrs),
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs=widget_attrs),
                            label="Username")
     password = forms.CharField(widget=forms.PasswordInput(attrs=widget_attrs),
                                label="Passwort")

@@ -7,11 +7,11 @@
     <form role="form" action="{% url 'login' %}?next={% url 'index' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label>Benutzername</label>
+            <div><label>Benutzername</label></div>
             {{ form.username }}
         </div>
         <div class="form-group">
-            <label>Passwort</label>
+            <div><label>Passwort</label></div>
             {{ form.password }}
         </div>
         <button type="submit" class="btn btn-primary btn-block">Einloggen</button>

@@ -9,7 +9,7 @@ $(document).ready(function () {
     $('ul#nav_ul').find(link_selector).parent().addClass('active');
 
     // Animate Logo
-    var animation_classes = 'animated wobble'
+    var animation_classes = 'animated wobble';
     var $logo = $('#logo');
     $logo.click(function () {
         $logo.addClass(animation_classes);
