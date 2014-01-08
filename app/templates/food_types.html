@@ -36,7 +36,11 @@
     {{ block.super }}
     <script>
         $(document).ready(function () {
-            $("#search").on("keyup", function () {
+            var $search = $('#search');
+
+            $search.focus();
+
+            $search.on("keyup", function () {
                 var search_term = $(this).val().toLowerCase();
 
                 $('div.row').each(function (index) {
