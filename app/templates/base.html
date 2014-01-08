@@ -2,13 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Food Items</title>
+    <title>
+        {% block page_title %}
+        {% endblock page_title %}
+        - Nutrimaid
+    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"
           user-scalable="no">
     {% block styles %}
         {#        <link href="{% static "bower_components/bootstrap/dist/css/bootstrap.css" %}"#}
         {#              rel="stylesheet">#}
         <link href="{% static "simplex.css" %}" rel="stylesheet">
+        <link href="{% static "animate-custom.css" %}" rel="stylesheet">
         <link href="{% static "custom.css" %}" rel="stylesheet">
     {% endblock styles %}
 
@@ -24,6 +29,8 @@
     {% if user.is_authenticated %}
         <div id="nav" style="margin-bottom: 12px">
             <ul class="nav nav-tabs" id="nav_ul" style="margin: 4px">
+                <li><img src="{% static "glyphicons_295_pot.png" %}"
+                         style="margin-top: 5px; margin-right: 10px" id="logo"></li>
                 <li><a href="{% url 'food_types' %}">Lebensmittel</a></li>
                 <li><a href="{% url 'diary' %}">Heute: {{ todays_points }}
                     Point{{ todays_points|pluralize }}</a></li>
@@ -33,10 +40,10 @@
     {% block messages %}
         {% if messages %}
             <ul class="list-unstyled">
-            {% for message in messages %}
-                <li class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
-                    {{ message }}</li>
-            {% endfor %}
+                {% for message in messages %}
+                    <li class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+                        {{ message }}</li>
+                {% endfor %}
             </ul>
         {% endif %}
     {% endblock messages %}

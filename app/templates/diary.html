@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% block page_title %}
+    Tagebuch
+{% endblock page_title %}
 {% block content %}
     {% for date, day in days %}
         <h3>{{ date | naturalday }}</h3>
@@ -7,12 +10,12 @@
             <tbody>
             {% for serving in day.servings %}
                 <tr>
-                    <td>
+                    <td style="width: 60%">
                         <a href="{% url 'food_type' id=serving.food_type.id %}">
                             {{ serving.food_type.name }}</a>
                     </td>
-                    <td>{{ serving.points }}</td>
-                    <td>
+                    <td style="width: 20%">{{ serving.points }}</td>
+                    <td style="width: 20%">
                         <button class="btn btn-warning btn-sm delete-serving"
                                 id="{{ serving.id }}">Löschen
                         </button>

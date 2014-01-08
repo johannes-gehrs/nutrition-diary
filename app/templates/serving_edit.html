@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block page_title %}
+    Portion bearbeiten
+    - {{ ft.name }}
+    - Nahrungsmittel
+{% endblock page_title %}
 {% block content %}
     <form role="form" action="{% url 'edit_ft_serving' ft.id %}" id="serving_edit"
           method="post">
