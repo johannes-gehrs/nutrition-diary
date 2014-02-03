@@ -7,4 +7,5 @@ def deploy():
     code_dir = '/usr/share/nutrition-diary'
     with cd(code_dir):
         run("git pull")
+        run("pip install --upgrade --requirement=requirements.txt")
         run("/etc/init.d/gunicorn reload")
