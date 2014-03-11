@@ -18,3 +18,17 @@ $(document).ready(function () {
         });
     });
 });
+
+delete_serving = function (url, serving_id) {
+    jqxhr = $.ajax({
+        url: url,
+        type: 'DELETE'
+    });
+    jqxhr.success(function () {
+        console.log('Successfully deleted: ' + serving_id);
+        location.reload();
+    });
+    jqxhr.error(function () {
+        console.log("Delete request didn't work: " +  serving_id)
+    });
+};
