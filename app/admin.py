@@ -10,4 +10,3 @@ class FoodTypeAdmin(admin.ModelAdmin):
 
 admin.site.register(models.FoodType, FoodTypeAdmin)
 admin.site.register(models.Serving)
-admin.site.register(models.Dieter)

@@ -56,7 +56,7 @@ class FoodType(models.Model):
         values = [eval('self.' + key) for key in base_keys]
 
         adjusted = [adjust(value) for value in values]
-        zipped = zip (base_keys, adjusted)
+        zipped = zip(base_keys, adjusted)
         complete_dict = {item[0]: item[1] for item in zipped}
 
         if keys is not None:
@@ -75,8 +75,3 @@ class Serving(models.Model):
 
     def points(self, rounded=True):
         return self.food_type.points(quantity=self.quantity, rounded=rounded)
-
-
-class Dieter(models.Model):
-    user = models.OneToOneField(User)
-    budget = models.PositiveIntegerField("Punktebudget pro Tag")
