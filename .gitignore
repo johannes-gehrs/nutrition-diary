@@ -39,3 +39,6 @@ nosetests.xml
 # Sublime
 *.sublime-project
 *.sublime-workspace
+
+# Django secret
+secret.txt
