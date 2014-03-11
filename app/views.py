@@ -19,7 +19,7 @@ def index(request):
     else:
         return redirect('login')
 
-
+# This should be a POST but it would complicate the bookmarklet a lot
 @require_safe
 @login_required
 def scrape(request, url):
@@ -161,6 +161,6 @@ def delete_serving(request, id):
     serving = get_object_or_404(models.Serving, user=request.user, id=id)
     with transaction.atomic():
         messages.add_message(request, messages.SUCCESS, _delete_message(serving.food_type.name,
-                                                                       serving.points()))
+                                                                        serving.points()))
         serving.delete()
     return HttpResponse('Serving deleted!')
