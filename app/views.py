@@ -81,7 +81,7 @@ def _handle_servings_eaten(request, ft, bound_form):
                                               ft.name))
 
 
-@require_http_methods(['GET', 'POST'])
+@require_http_methods(['GET', 'HEAD', 'POST'])
 @login_required
 def food_type(request, id):
     ft = get_object_or_404(models.FoodType, id=id)
@@ -104,7 +104,7 @@ def food_type(request, id):
                    'form': form})
 
 
-@require_http_methods(['GET', 'POST'])
+@require_http_methods(['GET', 'HEAD', 'POST'])
 @login_required
 def edit_ft_serving(request, id):
     ft = get_object_or_404(models.FoodType, id=id)
@@ -128,6 +128,7 @@ def edit_ft_serving(request, id):
     return render(request, 'serving_edit.html', {'ft': ft, 'form': form})
 
 
+@require_safe
 @login_required
 def diary(request):
     servings_grouped_by_day = []
