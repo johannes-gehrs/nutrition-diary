@@ -13,7 +13,7 @@ It's a Django app. It's probably not useful to anyone else unless
 This app scratches the food data from fddb.info on demand, so it's probbaly not legal to use it on a
 commercial scale, depending on your jurisdiction.
 
-If you actually want to use this and run into trouble installing it contact me. I used Python 2.7.
+If you actually want to use this and run into trouble installing it contact me. I've used Python 2.7.
 
 Thanks to http://glyphicons.com/ for providing an icon of a kettle. You can click the icon and
 then it will wobble.
