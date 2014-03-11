@@ -1,4 +1,4 @@
-all:
+nothing:
 	@echo "default target does nothing."
 
 reset:
