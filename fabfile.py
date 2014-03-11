@@ -1,3 +1,5 @@
+# This is specific to my personal deployment of the software and probably irrelevant to you (JG)
+
 from __future__ import absolute_import, division, unicode_literals
 from fabric.api import run, cd, env
 
