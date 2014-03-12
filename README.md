@@ -10,7 +10,7 @@ It's a Django app. It's probably not useful to anyone else unless
 - you want to install a tool for this on your own server
 - you want to use fddb.info (an online food database) to get the food data, e. g. you do not want to maintain this manually.
 
-This app scratches the food data from fddb.info on demand, so it's probbaly not legal to use it on a
+This app scrapes the food data from fddb.info on demand, so it's probbaly not legal to use it on a
 commercial scale, depending on your jurisdiction.
 
 If you actually want to use this and run into trouble installing it contact me. I've used Python 2.7.
