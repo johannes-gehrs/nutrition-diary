@@ -30,12 +30,13 @@ class FoodType(models.Model):
         else:
             return self.fiber
 
-    def _round_points(self, points):
+    @staticmethod
+    def _round_points(points):
         return points.quantize(Decimal('1.'), rounding=ROUND_HALF_DOWN)
 
     def points(self, rounded=True, quantity=None):
-        points_base = (Decimal(self.calories) / Decimal(50)) + (self.fat / Decimal(12)) \
-                      - (self._lesser_of_fiber_or_4() / 5)
+        points_base = (Decimal(self.calories) / Decimal(50)) + \
+                      (self.fat / Decimal(12)) - (self._lesser_of_fiber_or_4() / 5)
 
         if quantity is not None:
             points = (points_base * (quantity / self.BASE_SIZE_GRAMS))
@@ -43,7 +44,7 @@ class FoodType(models.Model):
             points = points_base
 
         if rounded:
-            return self._round_points(points)
+            return FoodType._round_points(points)
         else:
             return points
 
@@ -53,16 +54,15 @@ class FoodType(models.Model):
 
         adjust = lambda my_value: my_value * (quantity / self.BASE_SIZE_GRAMS)
         base_keys = ['calories', 'protein', 'carbon', 'fat', 'fiber']
-        values = [eval('self.' + key) for key in base_keys]
+        base_values = [eval('self.' + key) for key in base_keys]
 
-        adjusted = [adjust(value) for value in values]
-        zipped = zip(base_keys, adjusted)
-        complete_dict = {item[0]: item[1] for item in zipped}
+        adjusted_values = [adjust(value) for value in base_values]
+        value_dict = dict(zip(base_keys, adjusted_values))
 
         if keys is not None:
-            return {key: item[key] for item in complete_dict}
+            return {key: value_dict[key] for key in keys}
         else:
-            return complete_dict
+            return value_dict
 
 
 class Serving(models.Model):
