@@ -19,6 +19,7 @@ def index(request):
     else:
         return redirect('login')
 
+
 # This should be a POST but it would complicate the bookmarklet a lot
 @require_safe
 @login_required
