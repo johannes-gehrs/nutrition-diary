@@ -54,15 +54,14 @@ class FoodType(models.Model):
 
         adjust = lambda my_value: my_value * (quantity / self.BASE_SIZE_GRAMS)
         base_keys = ['calories', 'protein', 'carbon', 'fat', 'fiber']
-        base_values = [eval('self.' + key) for key in base_keys]
+        if keys is None:
+            keys = base_keys
 
+        base_values = [eval('self.' + key) for key in keys]
         adjusted_values = [adjust(value) for value in base_values]
-        value_dict = dict(zip(base_keys, adjusted_values))
+        value_dict = dict(zip(keys, adjusted_values))
 
-        if keys is not None:
-            return {key: value_dict[key] for key in keys}
-        else:
-            return value_dict
+        return value_dict
 
 
 class Serving(models.Model):
