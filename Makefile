@@ -4,3 +4,6 @@ nothing:
 reset:
 	./manage.py sqlclear app admin | python manage.py dbshell
 	./manage.py syncdb
+
+test:
+	./manage.py test
