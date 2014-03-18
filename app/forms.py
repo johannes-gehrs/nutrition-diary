@@ -8,10 +8,10 @@ widget_attrs = {'class': 'form-control'}
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs=widget_attrs),
-                           label="Username")
-    password = forms.CharField(widget=forms.PasswordInput(attrs=widget_attrs),
-                               label="Passwort")
+    username = forms.CharField(widget=forms.TextInput
+                              (attrs=widget_attrs), label="Username")
+    password = forms.CharField(widget=forms.PasswordInput
+                              (attrs=widget_attrs), label="Passwort")
 
 
 class ServingsEaten(forms.Form):

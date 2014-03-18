@@ -36,8 +36,9 @@ class FoodTypeFactory(DjangoModelFactory):
     FACTORY_FOR = models.FoodType
 
     name = "Körniger Frischkäse"
-    source_url = Sequence(lambda  n: "http://fddb.info/db/de/lebensmittel/" \
-                 "gut_und_guenstig_koerniger_frischkaese_3580%d/index.html" % n)
+    source_url = Sequence(lambda n: "http://fddb.info/"
+                                    "db/de/lebensmittel/"
+                                    "gut_und_guenstig_koerniger_frischkaese_3580%d/index.html" % n)
     calories = 98
     protein = Decimal('12.5')
     carbon = Decimal('3')
